@@ -1,12 +1,9 @@
 package com.kevcam.shopping.config;
 
 import com.kevcam.shopping.dao.ProductRepository;
-import com.kevcam.shopping.entities.Product;
+import com.kevcam.shopping.services.ProductService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Component
 public class AppInit implements CommandLineRunner {
@@ -20,6 +17,9 @@ public class AppInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        ProductService service = new ProductService(productRepository);
+        service.initializeDatabase();
+        /*
         if(productRepository.count() == 0) {
             productRepository.saveAll(
                     List.of(
@@ -30,5 +30,6 @@ public class AppInit implements CommandLineRunner {
                             //new Product(" ", BigDecimal.valueOf(-1.0)))
                     ).forEach(System.out::println);
         }
+        */
     }
 }
