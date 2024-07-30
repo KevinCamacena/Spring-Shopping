@@ -1,35 +1,24 @@
 package com.kevcam.shopping.config;
 
-import com.kevcam.shopping.dao.ProductRepository;
 import com.kevcam.shopping.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("!test")
 public class AppInit implements CommandLineRunner {
-    private final ProductRepository productRepository;
+    private final ProductService service;
 
-
-    public AppInit(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    @Autowired
+    public AppInit(ProductService service) {
+        this.service = service;
     }
-
 
     @Override
-    public void run(String... args) throws Exception {
-        ProductService service = new ProductService(productRepository);
+    public void run(String... args) {
         service.initializeDatabase();
-        /*
-        if(productRepository.count() == 0) {
-            productRepository.saveAll(
-                    List.of(
-                            new Product("Laptop", BigDecimal.valueOf(1000)),
-                            new Product("Mouse", BigDecimal.valueOf(20)),
-                            new Product("Keyboard", BigDecimal.valueOf(50)),
-                            new Product("Monitor", BigDecimal.valueOf(200)))
-                            //new Product(" ", BigDecimal.valueOf(-1.0)))
-                    ).forEach(System.out::println);
-        }
-        */
     }
 }
+
